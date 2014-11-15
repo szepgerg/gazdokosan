@@ -53,6 +53,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Jatekos.cs" />
+    <Compile Include="Model\Kartya.cs" />
+    <Compile Include="Model\Mezo.cs" />
+    <Compile Include="Model\Tabla.cs" />
     <Compile Include="View\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
