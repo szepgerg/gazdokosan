@@ -21,6 +21,13 @@ namespace GazdOkosan.Model
                 set { _leiras = value; }
             }
         #endregion
+
+        #region Metodusok
+            public void Kezel(Jatekos jatekos)
+            { 
+                
+            }
+        #endregion
     }
 
     public class TranzakciosMezo : Mezo
@@ -42,6 +49,13 @@ namespace GazdOkosan.Model
                 _osszeg = osszeg;
             }
         #endregion
+
+        #region Metodusok
+            public void Kezel(Jatekos jatekos)
+            {
+                // !!!!!!!!!!
+            }
+        #endregion
     }
 
     public class SzerencseMezo : Mezo
@@ -52,6 +66,14 @@ namespace GazdOkosan.Model
             {
                 Azonosito = azonosito;
                 Leiras = leiras;
+            }
+        #endregion
+
+        #region Metodusok
+            public void Kezel(Jatekos jatekos)
+            {
+                // !!!!!!!!!!
+                // Esemeny a Tablanak, ami a Kartyahuzas()-ra van kotve.
             }
         #endregion
     }
@@ -73,6 +95,21 @@ namespace GazdOkosan.Model
                 _ujradobas = ujradobas;
             }
         #endregion
+        
+        #region Metodusok
+            public void Kezel(Jatekos jatekos)
+            {
+                // !!!!!!!!!!
+                if (_ujradobas)
+                {
+                    // Esemenydobas a Tablanak, ami a Dobas()-ra van kotve.
+                }
+                else 
+                { 
+                   // Esemenydobas a Tablanak, ami a Lepes(_lepesszam)-ra van kotve.
+                }
+            }
+        #endregion
     }
 
     public class SpecialisMezo : Mezo
@@ -84,6 +121,21 @@ namespace GazdOkosan.Model
             {
                 Azonosito = azonosito;
                 Leiras = leiras;
+            }
+        #endregion
+
+        #region Metodusok
+            public void Kezel(Jatekos jatekos)
+            {
+                // !!!!!!!!!!
+                if (Azonosito == 5)
+                {
+                    // Csak a szoveg megjelenitese.
+                }
+                else
+                { 
+                    // 30-as mezo. 
+                }
             }
         #endregion
     }

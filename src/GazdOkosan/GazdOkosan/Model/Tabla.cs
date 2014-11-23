@@ -26,6 +26,8 @@ namespace GazdOkosan.Model
             public Tabla(String[] nevek, String[] szinek, Int32 osszeg)
             { 
                 // Mezok inicializalasa.
+                // !!!!!!!!!!
+                // A tranzakcios mezoket is inicializalni kell.
                 _mezok = new Mezo[39];
                 Leiras_Inicializalas();
                 SZM_Inicializalas();
@@ -33,6 +35,7 @@ namespace GazdOkosan.Model
                 SM_Inicializalas();
 
                 // Kartyak inicializalasa.
+                // !!!!!!!!!!
 
                 // Jatekosok inicializalasa.
                 _jatekosSzam = nevek.Length;
@@ -133,17 +136,49 @@ namespace GazdOkosan.Model
             /// <summary>
             /// Az aktualis jatekos lepeset elvegzo eljaras.
             /// </summary>
-            public void Lepes()
+            public void Dobas()
             {
-                //Jatekos atallitasa
-                if (_kovJatekos == _jatekosSzam)
-                {
-                    _kovJatekos = 1;
-                }
-                else
-                {
-                    _kovJatekos++;
-                }
+                // Dobas.
+                Random rand = new Random();
+                Int32 dobas = rand.Next(1, 7);
+
+                Lepes(dobas);
+            }
+
+            /// <summary>
+            /// A jatekos leptetese.
+            /// </summary>
+            /// <param name="dobas"> Dobas eredmenye, ennyit lep a jatekos. </param>
+            public void Lepes(Int32 dobas)
+            {
+                // A kovetkezo pozicio meghatarozasa.
+                Int32 poz = (_jatekosok[_kovJatekos].Pozicio + dobas) % 39 + 1;
+
+                // A jatekos uj mezoje elvegzi a szukseges valtozasokat a jatekoson.
+                // !!!!!!!!!!
+                // Megvalositani minden mezore a Kezel(Jatekos) metodust.
+                _mezok[poz].Kezel(_jatekosok[_kovJatekos]);
+                
+                // Kovetkezo jatekos beallitasa.
+                // !!!!!!!!!!
+                // Ha kimarad/ketszer jon(otlet legyen esemenyhez kotve, amit a mezo nem mindig valt ki).
+                JatekosValtas();
+            }
+
+            /// <summary>
+            /// A jatekosok ciklikus valtogatasat elvegzo metodus.
+            /// </summary>
+            public void JatekosValtas()
+            {
+                _kovJatekos = (_kovJatekos + 1) % 4 + 1;
+            }
+
+            /// <summary>
+            /// A szerencsekartya huzasat tamogato metodus.
+            /// </summary>
+            public void Kartyahuzas()
+            { 
+                // !!!!!!!!!!
             }
         #endregion
     }

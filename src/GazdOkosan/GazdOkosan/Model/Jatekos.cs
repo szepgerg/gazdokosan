@@ -8,6 +8,7 @@ namespace GazdOkosan.Model
             private String _nev;
             private String _szin;
             private Int32 _osszeg;
+            private Int32 _pozicio;
             private Boolean _vanLakas;
             private Boolean _vanTakarek;
         #endregion
@@ -17,6 +18,11 @@ namespace GazdOkosan.Model
             {
                 get { return _osszeg; }
                 set { _osszeg = value; }
+            }
+            public Int32 Pozicio
+            {
+                get { return _pozicio; }
+                set { _pozicio = value; }
             }
             public Boolean VanLakas
             {
