@@ -28,23 +28,30 @@ namespace GazdOkosan.Model
                 // Mezok inicializalasa.
                 // !!!!!!!!!!
                 // A tranzakcios mezoket is inicializalni kell.
-                _mezok = new Mezo[39];
+                _mezok = new Mezo[40]; //(1..39)
                 Leiras_Inicializalas();
                 SZM_Inicializalas();
                 LM_Inicializalas();
                 SM_Inicializalas();
-
+                /*foreach (Mezo mezo in _mezok)
+                {
+                    // Ez a kapcsolat mukodik, 22-es mezore tesztelve. 
+                    // Azert van kiveve, mert jelenleg nincs minden mezo peldanyositva.
+                    mezo.KartyaHuzas += new EventHandler<EventArgs>(KartyahuzasEsemeny);
+                    mezo.Dobas += new EventHandler<EventArgs>(DobasEsemeny);
+                }*/
+                
                 // Kartyak inicializalasa.
                 // !!!!!!!!!!
 
                 // Jatekosok inicializalasa.
                 _jatekosSzam = nevek.Length;
-                _jatekosok = new Jatekos[_jatekosSzam];
+                _jatekosok = new Jatekos[_jatekosSzam + 1];
                 for (Int32 i = 0; i < _jatekosSzam; ++i)
                 {
-                    _jatekosok[i] = new Jatekos(nevek[i], szinek[i], osszeg);
+                    _jatekosok[i+1] = new Jatekos(nevek[i], szinek[i], osszeg);
                 }
-            
+
                 _kovJatekos = 1;
             }
         #endregion
@@ -88,7 +95,7 @@ namespace GazdOkosan.Model
                 {
                     String leiras;
                     _leirasok.TryGetValue(i, out leiras);
-                    _mezok[i] = new SzerencseMezo(i, leiras);
+                    _mezok[elemek[i]] = new SzerencseMezo(elemek[i], leiras);
                 }
             }
             
@@ -134,6 +141,16 @@ namespace GazdOkosan.Model
             }
 
             /// <summary>
+            /// A mezo dobast jelzo esemenyenek kezelese.
+            /// </summary>
+            /// <param name="sender"> Az esemenyt kivalto mezo. </param>
+            /// <param name="e"> Az esemeny parameterei. </param>
+            public void DobasEsemeny(object sender, EventArgs e)
+            {
+                Dobas();
+            }
+
+            /// <summary>
             /// Az aktualis jatekos lepeset elvegzo eljaras.
             /// </summary>
             public void Dobas()
@@ -171,6 +188,16 @@ namespace GazdOkosan.Model
             public void JatekosValtas()
             {
                 _kovJatekos = (_kovJatekos + 1) % 4 + 1;
+            }
+
+            /// <summary>
+            /// A mezo karatyahuzast jelzo esemenyenek kezelese.
+            /// </summary>
+            /// <param name="sender"> Az esemenyt kivalto mezo. </param>
+            /// <param name="e"> Az esemeny parameterei. </param>
+            public void KartyahuzasEsemeny(object sender, EventArgs e)
+            {
+                Kartyahuzas();
             }
 
             /// <summary>

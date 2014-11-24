@@ -22,8 +22,30 @@ namespace GazdOkosan.Model
             }
         #endregion
 
-        #region Metodusok
-            public void Kezel(Jatekos jatekos)
+        #region Esemenyek
+            public event EventHandler<EventArgs> KartyaHuzas;
+                protected void KartyaHuzaskor()
+                {
+                    if (KartyaHuzas != null)
+                            KartyaHuzas(this, new EventArgs());
+                }
+            public event EventHandler<EventArgs> Dobas;
+                protected void Dobaskor()
+                {
+                    if (Dobas != null)
+                        Dobas(this, new EventArgs());
+                }
+        #endregion
+
+        #region Konstruktorok
+            public Mezo()
+            {
+
+            }
+        #endregion
+
+            #region Metodusok
+            public virtual void Kezel(Jatekos jatekos)
             { 
                 
             }
@@ -51,7 +73,7 @@ namespace GazdOkosan.Model
         #endregion
 
         #region Metodusok
-            public void Kezel(Jatekos jatekos)
+            public override void Kezel(Jatekos jatekos)
             {
                 // !!!!!!!!!!
             }
@@ -70,10 +92,10 @@ namespace GazdOkosan.Model
         #endregion
 
         #region Metodusok
-            public void Kezel(Jatekos jatekos)
+            public override void Kezel(Jatekos jatekos)
             {
-                // !!!!!!!!!!
                 // Esemeny a Tablanak, ami a Kartyahuzas()-ra van kotve.
+                KartyaHuzaskor();
             }
         #endregion
     }
@@ -97,12 +119,13 @@ namespace GazdOkosan.Model
         #endregion
         
         #region Metodusok
-            public void Kezel(Jatekos jatekos)
+            public override void Kezel(Jatekos jatekos)
             {
                 // !!!!!!!!!!
                 if (_ujradobas)
                 {
                     // Esemenydobas a Tablanak, ami a Dobas()-ra van kotve.
+                    Dobaskor();
                 }
                 else 
                 { 
@@ -125,7 +148,7 @@ namespace GazdOkosan.Model
         #endregion
 
         #region Metodusok
-            public void Kezel(Jatekos jatekos)
+            public override void Kezel(Jatekos jatekos)
             {
                 // !!!!!!!!!!
                 if (Azonosito == 5)
