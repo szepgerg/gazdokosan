@@ -21,6 +21,11 @@ namespace GazdOkosan.Model
                 get { return _leiras; }
                 set { _leiras = value; }
             }
+            public virtual Boolean EgyVagyHat
+            {
+                get;
+                set;
+            }
         #endregion
 
         #region Esemenyek
@@ -180,8 +185,8 @@ namespace GazdOkosan.Model
                     Dobaskor();
                 }
                 else 
-                { 
-                   // Esemenydobas a Tablanak, ami a Lepes(_lepesszam)-ra van kotve.
+                {
+                    // Esemenydobas a Tablanak, ami a Lepes(_lepesszam)-ra van kotve.
                     Lepeskor(_lepesszam);
                 }
             }
@@ -192,16 +197,36 @@ namespace GazdOkosan.Model
     {
         // A jatekos csak akkor mehet tovabb ha 1-es illetve 6-ost dobott(30-as mezo)
         // csak egy szoveget kell megjeleniteni, semmi hatasa nincsen(5-os mezo).
+        #region Adattagok
+            private Boolean _egyVagyHat;
+        #endregion
+
         #region Konstruktorok
-            public SpecialisMezo(Int32 azonosito, String leiras)
+        public SpecialisMezo(Int32 azonosito, String leiras)
             {
                 Azonosito = azonosito;
                 Leiras = leiras;
+                if (Azonosito == 30)
+                {
+                    _egyVagyHat = true;
+                }
+                else
+                {
+                    _egyVagyHat = false;
+                }
+            }
+        #endregion
+
+        #region Tulajdonsagok
+            public override Boolean EgyVagyHat
+            {
+                get { return _egyVagyHat; }
+                set { _egyVagyHat = value; }
             }
         #endregion
 
         #region Metodusok
-            public override void Kezel(Jatekos jatekos)
+        public override void Kezel(Jatekos jatekos)
             {
                 // !!!!!!!!!!
                 if (Azonosito == 5)

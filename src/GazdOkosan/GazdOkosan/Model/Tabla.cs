@@ -14,6 +14,7 @@ namespace GazdOkosan.Model
             private Jatekos[] _jatekosok;
             private Int32 _jatekosSzam;
             private Int32 _kovJatekos;
+            private Int32 _dobas;
         #endregion
 
         #region Tulajdonsagok
@@ -35,14 +36,16 @@ namespace GazdOkosan.Model
                 SZM_Inicializalas();
                 LM_Inicializalas();
                 SM_Inicializalas();
-                /*foreach (Mezo mezo in _mezok)
+                foreach (Mezo mezo in _mezok)
                 {
-                    // Ez a kapcsolat mukodik, 22-es mezore tesztelve. 
-                    // Azert van kiveve, mert jelenleg nincs minden mezo peldanyositva.
-                    mezo.KartyaHuzas += new EventHandler<EventArgs>(KartyahuzasEsemeny);
-                    mezo.Dobas += new EventHandler<EventArgs>(DobasEsemeny);
-                    mezo.Lepes += new EventHandler<MezoArgumentumok>(LepesEsemeny);
-                }*/
+                    // !!!!!!!!!!
+                    if(mezo != null)
+                    {
+                        mezo.KartyaHuzas += new EventHandler<EventArgs>(KartyahuzasEsemeny);
+                        mezo.Dobas += new EventHandler<EventArgs>(DobasEsemeny);
+                        mezo.Lepes += new EventHandler<MezoArgumentumok>(LepesEsemeny);
+                    }
+                }
 
                 // Kartyak inicializalasa.
                 // !!!!!!!!!!
@@ -106,6 +109,9 @@ namespace GazdOkosan.Model
                 // !!!!!!!!!! 14,26
             }
 
+            /// <summary>
+            /// A vasarlasi listak inicializalasa.
+            /// </summary>
             public void Lista_Inicializalas()
             {
                 // ////////// Igy lehet megindexelni a Dictionary-t.
@@ -186,10 +192,10 @@ namespace GazdOkosan.Model
 
                 t = TranzakciosMezo.Tipus.Felteteles;
                 Int32 e = 3;
-                _leirasok.TryGetValue(i, out leiras);
+                _leirasok.TryGetValue(e, out leiras);
                 _mezok[e] = new TranzakciosMezo(e, leiras, t, -1);
                 e = 16;
-                _leirasok.TryGetValue(i, out leiras);
+                _leirasok.TryGetValue(e, out leiras);
                 _mezok[e] = new TranzakciosMezo(e, leiras, t, -1);
 
                 t = TranzakciosMezo.Tipus.Listas;
@@ -199,7 +205,7 @@ namespace GazdOkosan.Model
                     _leirasok.TryGetValue(listasElemek[i], out leiras);
                     Dictionary<String, Int32> lista;
                     _listak.TryGetValue(listasElemek[i], out lista);
-                    _mezok[elemek[i]] = new TranzakciosMezo(listasElemek[i], leiras, t, -1, lista);
+                    _mezok[listasElemek[i]] = new TranzakciosMezo(listasElemek[i], leiras, t, -1, lista);
                 }
             }
 
@@ -274,9 +280,9 @@ namespace GazdOkosan.Model
             {
                 // Dobas.
                 Random rand = new Random();
-                Int32 dobas = rand.Next(1, 7);
-
-                Lepes(dobas);
+                    _dobas = rand.Next(1, 7);
+                
+                Lepes();
             }
 
             /// <summary>
@@ -286,26 +292,24 @@ namespace GazdOkosan.Model
             /// <param name="e"> Az esemeny parameterei(lepesszam). </param>
             public void LepesEsemeny(object sender, MezoArgumentumok e)
             {
-                Lepes(e.Lepesszam);
+                _dobas = e.Lepesszam;
+                Lepes();
             }
 
             /// <summary>
             /// A jatekos leptetese.
             /// </summary>
             /// <param name="dobas"> Dobas eredmenye, ennyit lep a jatekos. </param>
-            public void Lepes(Int32 dobas)
+            public void Lepes()
             {
                 // A kovetkezo pozicio meghatarozasa.
-                Int32 poz = (_jatekosok[_kovJatekos].Pozicio + dobas) % 39 + 1;
-
-                // A jatekos uj mezoje elvegzi a szukseges valtozasokat a jatekoson.
-                // !!!!!!!!!!
-                // Megvalositani minden mezore a Kezel(Jatekos) metodust.
+                Int32 poz = _jatekosok[_kovJatekos].Pozicio + _dobas;
+                    if (poz > 39) poz = poz - 39;
+                // Jatekos uj poziciojanak mentese.
+                _jatekosok[_kovJatekos].Pozicio = poz;
+                // Mezore lepes, az uj mezo kezeli a jatekos valtozasait.
                 _mezok[poz].Kezel(_jatekosok[_kovJatekos]);
-                
-                // Kovetkezo jatekos beallitasa.
-                // !!!!!!!!!!
-                // Ha kimarad/ketszer jon(otlet legyen esemenyhez kotve, amit a mezo nem mindig valt ki).
+
                 JatekosValtas();
             }
 
@@ -314,7 +318,9 @@ namespace GazdOkosan.Model
             /// </summary>
             public void JatekosValtas()
             {
-                _kovJatekos = (_kovJatekos + 1) % 4 + 1;
+                _kovJatekos = (_kovJatekos % 2) + 1;
+
+                Dobas();
             }
 
             /// <summary>
