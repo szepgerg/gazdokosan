@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GazdOkosan.Model
 {
@@ -8,6 +9,7 @@ namespace GazdOkosan.Model
         #region Adattagok
             private Mezo[] _mezok;
             private Dictionary<Int32, String> _leirasok;
+            private Dictionary<Int32, Dictionary<String, Int32>> _listak;
             private Kartya[] _kartyak;
             private Jatekos[] _jatekosok;
             private Int32 _jatekosSzam;
@@ -26,10 +28,10 @@ namespace GazdOkosan.Model
             public Tabla(String[] nevek, String[] szinek, Int32 osszeg)
             { 
                 // Mezok inicializalasa.
-                // !!!!!!!!!!
-                // A tranzakcios mezoket is inicializalni kell.
                 _mezok = new Mezo[40]; //(1..39)
                 Leiras_Inicializalas();
+                Lista_Inicializalas();
+                TM_Inicializalas();
                 SZM_Inicializalas();
                 LM_Inicializalas();
                 SM_Inicializalas();
@@ -39,8 +41,9 @@ namespace GazdOkosan.Model
                     // Azert van kiveve, mert jelenleg nincs minden mezo peldanyositva.
                     mezo.KartyaHuzas += new EventHandler<EventArgs>(KartyahuzasEsemeny);
                     mezo.Dobas += new EventHandler<EventArgs>(DobasEsemeny);
+                    mezo.Lepes += new EventHandler<MezoArgumentumok>(LepesEsemeny);
                 }*/
-                
+
                 // Kartyak inicializalasa.
                 // !!!!!!!!!!
 
@@ -83,10 +86,125 @@ namespace GazdOkosan.Model
                 _leirasok.Add(35, "Húzz egy szerencsekártyát!");
                 _leirasok.Add(5, "A budapesti víz Európa egyik legjobb ivóvize. Zárd el jól a csapot, hogy ne folyjon feleslegesen!");
                 _leirasok.Add(30, "Nyári táborban pihensz. A pihenés el is húzódhat, mert csak 1-es vagy 6-os dobással mehetsz tovább!");
+                _leirasok.Add(1, "Szemeteltél, fizess 50,-Ft bűntetést!");
+                _leirasok.Add(6, "A dohányzás káros, mert a cigaretta lassan ölő méreg. Hogy jobban eszedbe vésd, fizess 100,-Ft-ot!");
+                _leirasok.Add(24, "Az olvasás szórakoztató és hasznos időtöltés. Vegyél könyvutalványt!");
+                _leirasok.Add(25, "A Vidám Parkban szórakoztál, elköltöttél 200,-Ft-ot!");
+                _leirasok.Add(36, "Sétáltál a Várban és megnézted a Nemzeti Galéria kiállításait. Múzeumi katalógust és képeslapokat vásároltál, fizess 50,-Ft-ot!");
+                _leirasok.Add(38, "Egyszerre vásároltad meg alapvető havi élelmiszer-szükségleteidet, fizess 800,-Ft-ot!");
+                _leirasok.Add(32, "Kerékpártúrán elsőnek érkeztél célba, jó helyezésedért 1000,-Ft jutalomban részesülsz!");
+                _leirasok.Add(3, "Takarékoskodj! Betéteid után az OTP 5% kamatot fizet, amelyet készpénzben a pénztáros ad át!");
+                _leirasok.Add(16, "Ha kötöttél CSÉB-biztosítást, a kötvény ellenében vedd át a pénztárostól a biztosítási összeget, 5000,-Ft-ot!");
+                _leirasok.Add(4, "Televíziót, rádiót és elektromos háztartási gépet vásárolhatsz!");
+                _leirasok.Add(34, "Szaküzletben is vásárolhatsz elektromos háztartási gépeket!");
+                _leirasok.Add(7, "Az áruházak osztályain lakásod minden berendezését megvásárolhatod, sőt sportfelszereléseket is vehetsz!");
+                _leirasok.Add(13, "Lakásodat most teljesen berendezheted!");
+                _leirasok.Add(8, "Légy erőlelátó! Köss lakásbiztosítást és megkötheted a CSÉB-biztosítást is!");
+                _leirasok.Add(17, "Ha nincs televíziód, rádiód és háztartási géped - kölcsönözhetsz is!");
+                _leirasok.Add(18, "Szórakozni szeretnél. Vásárolj színház-, vagy mozijegyet!");
+                _leirasok.Add(29, "Itt megvásárolhatod a szükséges bútorokat és sportfelszereléseket!");
+                // !!!!!!!!!! 14,26
+            }
+
+            public void Lista_Inicializalas()
+            {
+                // ////////// Igy lehet megindexelni a Dictionary-t.
+                //int n = 3; (4.elem)
+                //int nthValue = lista[lista.Keys.ToList()[n]];
+                // //////////
+                _listak = new Dictionary<Int32, Dictionary<String, Int32>>();
+                Dictionary<String, Int32> lista = new Dictionary<String, Int32>();
+
+                lista.Clear();
+                lista.Add("Televízió", 6000);
+                lista.Add("Rádió", 2000);
+                lista.Add("Porszívó", 1000);
+                lista.Add("Hűtőgép", 4000);
+                lista.Add("Mosógép", 5000);
+                _listak.Add(4, lista);
+                _listak.Add(34, lista);
+
+                lista.Clear();
+                lista.Add("Szobabútor", 25000);
+                lista.Add("Konyhabútor", 15000);
+                lista.Add("Hűtőgép", 4000);
+                lista.Add("Mosógép", 5000);
+                lista.Add("Pingpongasztal", 2000);
+                lista.Add("Porszívó", 1000);
+                lista.Add("Televízió", 6000);
+                lista.Add("Rádió", 2000);
+                lista.Add("Kerékpár", 1500);
+                _listak.Add(7, lista);
+                _listak.Add(13, lista);
+
+                lista.Clear();
+                lista.Add("Televízió", 500);
+                lista.Add("Rádió", 200);
+                lista.Add("Mosógép", 500);
+                _listak.Add(17, lista);
+
+                lista.Clear();
+                lista.Add("Lakásbiztosítás", 200);
+                lista.Add("CSÉB-biztosítás", 150);
+                _listak.Add(8, lista);
+
+                lista.Clear();
+                lista.Add("Színházjegy", 100);
+                lista.Add("Mozijegy", 50);
+                _listak.Add(18, lista);
+
+                lista.Clear(); 
+                lista.Add("Szobabútor", 25000);
+                lista.Add("Konyhabútor", 15000);
+                lista.Add("Pingpongasztal", 2000);
+                lista.Add("Kerékpár", 1500);
+                _listak.Add(29, lista);
             }
 
             /// <summary>
-            /// Szerencsemezok inicializalasa.
+            /// Tranzakcios mezok inicializalasa.
+            /// </summary>
+            private void TM_Inicializalas()
+            {
+                TranzakciosMezo.Tipus t = new TranzakciosMezo.Tipus();
+                String leiras;
+
+                t = TranzakciosMezo.Tipus.Egyszeru;
+                Dictionary<Int32, Int32> elemek = new Dictionary<Int32, Int32>();
+                elemek.Add(1, 50);
+                elemek.Add(6, 100);
+                elemek.Add(24, 200);
+                elemek.Add(25, 200);
+                elemek.Add(36, 50);
+                elemek.Add(38, 800);
+                elemek.Add(32, -1000);
+                foreach (KeyValuePair<Int32, Int32> par in elemek)
+                {
+                    _leirasok.TryGetValue(par.Key, out leiras);
+                    _mezok[par.Key] = new TranzakciosMezo(par.Key, leiras, t, par.Value);
+                }
+
+                t = TranzakciosMezo.Tipus.Felteteles;
+                Int32 e = 3;
+                _leirasok.TryGetValue(i, out leiras);
+                _mezok[e] = new TranzakciosMezo(e, leiras, t, -1);
+                e = 16;
+                _leirasok.TryGetValue(i, out leiras);
+                _mezok[e] = new TranzakciosMezo(e, leiras, t, -1);
+
+                t = TranzakciosMezo.Tipus.Listas;
+                Int32[] listasElemek = new Int32[8] { 4, 34, 7, 13, 8, 17, 18, 29 };
+                for (Int32 i = 0; i < listasElemek.Length; ++i)
+                {
+                    _leirasok.TryGetValue(listasElemek[i], out leiras);
+                    Dictionary<String, Int32> lista;
+                    _listak.TryGetValue(listasElemek[i], out lista);
+                    _mezok[elemek[i]] = new TranzakciosMezo(listasElemek[i], leiras, t, -1, lista);
+                }
+            }
+
+            /// <summary>
+            /// Szerencse mezok inicializalasa.
             /// </summary>
             private void SZM_Inicializalas()
             {
@@ -94,13 +212,13 @@ namespace GazdOkosan.Model
                 for (Int32 i = 0; i < elemek.Length; ++i )
                 {
                     String leiras;
-                    _leirasok.TryGetValue(i, out leiras);
+                    _leirasok.TryGetValue(elemek[i], out leiras);
                     _mezok[elemek[i]] = new SzerencseMezo(elemek[i], leiras);
                 }
             }
             
             /// <summary>
-            /// Leptetomezok inicializalasa.
+            /// Lepteto mezok inicializalasa.
             /// </summary>
             private void LM_Inicializalas()
             {
@@ -116,8 +234,7 @@ namespace GazdOkosan.Model
                 elemek.Add(28, -1);
                 elemek.Add(33, 8);
                 elemek.Add(37, 2);
-                elemek.Add(39, -1);
-                
+                elemek.Add(39, -1);     
                 foreach (KeyValuePair<Int32, Int32> par in elemek)
                 {
                     String leiras;
@@ -127,7 +244,7 @@ namespace GazdOkosan.Model
             }
 
             /// <summary>
-            /// Specialismezok inicializalasa.
+            /// Specialis mezok inicializalasa.
             /// </summary>
             private void SM_Inicializalas()
             {
@@ -160,6 +277,16 @@ namespace GazdOkosan.Model
                 Int32 dobas = rand.Next(1, 7);
 
                 Lepes(dobas);
+            }
+
+            /// <summary>
+            /// A mezo lepest jelzo esemenyenek kezelese.
+            /// </summary>
+            /// <param name="sender"> Az esemenyt kivalto mezo. </param>
+            /// <param name="e"> Az esemeny parameterei(lepesszam). </param>
+            public void LepesEsemeny(object sender, MezoArgumentumok e)
+            {
+                Lepes(e.Lepesszam);
             }
 
             /// <summary>

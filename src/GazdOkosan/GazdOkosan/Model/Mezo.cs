@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GazdOkosan.Model
 {
@@ -35,6 +36,12 @@ namespace GazdOkosan.Model
                     if (Dobas != null)
                         Dobas(this, new EventArgs());
                 }
+            public virtual event EventHandler<MezoArgumentumok> Lepes;
+                protected virtual void Lepeskor(Int32 lepesszam)
+                {
+                    if (Lepes != null)
+                        Lepes(this, new MezoArgumentumok(lepesszam));
+                }
         #endregion
 
         #region Konstruktorok
@@ -44,7 +51,7 @@ namespace GazdOkosan.Model
             }
         #endregion
 
-            #region Metodusok
+        #region Metodusok
             public virtual void Kezel(Jatekos jatekos)
             { 
                 
@@ -54,12 +61,13 @@ namespace GazdOkosan.Model
 
     public class TranzakciosMezo : Mezo
     {
-        // A jatekos fix osszeget fizet(Negativ), a jatekos vasarolhat egy listarol(Listas), 
-        // a jatekosnak fix osszeget fizetnek(Pozitiv), a jatekosnak feltetelhez kototten fizetnek(Felteteles).
+        // A jatekos fix osszeget fizet/kap(Egyszeru), a jatekos vasarolhat egy listarol(Listas), 
+        // a jatekosnak feltetelhez kototten fizetnek(Felteteles).
         #region Adattagok
-            public enum Tipus { Negativ, Listas, Pozitiv, Felteteles};
+            public enum Tipus { Egyszeru, Listas, Felteteles};
             private Int32 _osszeg;
             private Tipus _tipus;
+            private Dictionary<String, Int32> _lista;
         #endregion
 
         #region Konstruktorok
@@ -70,12 +78,48 @@ namespace GazdOkosan.Model
                 _tipus = tipus;
                 _osszeg = osszeg;
             }
+            public TranzakciosMezo(Int32 azonosito, String leiras, Tipus tipus, Int32 osszeg, Dictionary<String, Int32> lista)
+            {
+                Azonosito = azonosito;
+                Leiras = leiras;
+                _tipus = tipus;
+                _osszeg = osszeg;
+                _lista = lista;
+            }
         #endregion
 
         #region Metodusok
             public override void Kezel(Jatekos jatekos)
             {
-                // !!!!!!!!!!
+                switch (_tipus)
+                {
+                    case Tipus.Egyszeru:
+                        // Mindig kivonas, mivel ha a jatekos kap az osszeg negativ.
+                        jatekos.Osszeg = jatekos.Osszeg - _osszeg;
+                        break;
+                    case Tipus.Felteteles:
+                        if (Azonosito == 3)
+                        {
+                            // A takarekbetetek utan 5% jar.
+                            if (jatekos.Takarek != 0)
+                            {
+                                jatekos.Osszeg = jatekos.Osszeg + (jatekos.Takarek / 100) * 5;
+                            }
+                        }
+                        else
+                        { 
+                            // Ha van CSEB-biztositas, jar 5000 Ft.
+                            if (jatekos.VanCSEB)
+                            {
+                                jatekos.Osszeg = jatekos.Osszeg + 5000;
+                            }
+                        }
+                        break;
+                    case Tipus.Listas:
+                        break;
+                    default:
+                        break;
+                }
             }
         #endregion
     }
@@ -108,8 +152,17 @@ namespace GazdOkosan.Model
             private Boolean _ujradobas;
         #endregion
 
+        #region Esemenyek
+            public override event EventHandler<MezoArgumentumok> Lepes;
+                protected override void Lepeskor(Int32 lepesszam)
+                {
+                    if (Lepes != null)
+                            Lepes(this, new MezoArgumentumok(lepesszam));
+                }
+        #endregion
+
         #region Konstruktorok
-            public LeptetoMezo(Int32 azonosito, String leiras, Int32 lepesszam, Boolean ujradobas)
+        public LeptetoMezo(Int32 azonosito, String leiras, Int32 lepesszam, Boolean ujradobas)
             {
                 Azonosito = azonosito;
                 Leiras = leiras;
@@ -121,7 +174,6 @@ namespace GazdOkosan.Model
         #region Metodusok
             public override void Kezel(Jatekos jatekos)
             {
-                // !!!!!!!!!!
                 if (_ujradobas)
                 {
                     // Esemenydobas a Tablanak, ami a Dobas()-ra van kotve.
@@ -130,6 +182,7 @@ namespace GazdOkosan.Model
                 else 
                 { 
                    // Esemenydobas a Tablanak, ami a Lepes(_lepesszam)-ra van kotve.
+                    Lepeskor(_lepesszam);
                 }
             }
         #endregion
