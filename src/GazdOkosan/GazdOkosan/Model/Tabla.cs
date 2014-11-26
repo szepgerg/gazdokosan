@@ -11,7 +11,7 @@ namespace GazdOkosan.Model
             private Dictionary<Int32, String> _leirasok;
             private Dictionary<Int32, Dictionary<String, Int32>> _listak;
             private Kartya[] _kartyak;
-            private Jatekos[] _jatekosok;
+            public Jatekos[] _jatekosok;
             private Int32 _jatekosSzam;
             private Int32 _kovJatekos;
             private Int32 _dobas;

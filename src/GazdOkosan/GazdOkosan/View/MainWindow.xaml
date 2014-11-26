@@ -19,7 +19,7 @@
         </Menu>
 
         <Frame Content="Játéktér" Height="274" Margin="10,11,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="372" Grid.Row="1"/>
-        <Button Content="Dobás" HorizontalAlignment="Left" Height="25" Margin="387,11,0,289" Width="120" Grid.Row="1"/>
+        <Button Content="Dobás" HorizontalAlignment="Left" Height="25" Margin="387,11,0,289" Width="120" Grid.Row="1" Name="dobas" Command="{Binding DobasParancs}"/>
         <Button Content="Takarékbetét váltás" HorizontalAlignment="Left" Height="25" Margin="387,41,0,259" Width="120" Grid.Row="1"/>
         <Button Content="Ház vásárlás" HorizontalAlignment="Left" Height="25" Margin="387,71,0,229" Width="120" Grid.Row="1"/>
         <Button Content="Törlesztés" HorizontalAlignment="Left" Height="25" Margin="387,101,0,199" Width="120" Grid.Row="1"/>

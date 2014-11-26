@@ -13,6 +13,7 @@ namespace GazdOkosan.Model
             private Int32 _takarek;
             private Boolean _vanLakas;
             private Boolean _vanCSEB;
+            private Boolean _vanLakasbizt;
             private Boolean _vanKonyvut;
         #endregion
 
@@ -46,6 +47,16 @@ namespace GazdOkosan.Model
             {
                 get { return _vanCSEB; }
                 set { _vanCSEB = value; }
+            }
+            public Boolean VanLakasbizt
+            {
+                get { return _vanLakasbizt; }
+                set { _vanLakasbizt = value; }
+            }
+            public Boolean VanKonyvut
+            {
+                get { return _vanKonyvut; }
+                set { _vanKonyvut = value; }
             }
         #endregion
 
