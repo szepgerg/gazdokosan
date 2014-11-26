@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GazdOkosan.ViewModel;
 
 namespace GazdOkosan.View
 {
@@ -20,9 +21,16 @@ namespace GazdOkosan.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        GazdOkosanViewModel viewModel = new GazdOkosanViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void dobas_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.dobas();
         }
     }
 }
