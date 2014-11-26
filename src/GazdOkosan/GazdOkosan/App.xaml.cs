@@ -8,7 +8,7 @@ using System.Windows;
 using GazdOkosan.View;
 using GazdOkosan.ViewModel;
 // ////////// Teszteleshez kellenek.
-using GazdOkosan.Model;
+//using GazdOkosan.Model;
 // //////////
 
 namespace GazdOkosan
@@ -23,7 +23,7 @@ namespace GazdOkosan
         private NewGameWindow _NewGameWindow;
         private HelpWindow _HelpWindow;
         // //////////
-        private Tabla _T;
+        //private Tabla _T;
         // //////////
 
         public App()
@@ -41,10 +41,10 @@ namespace GazdOkosan
             _MainWindow.DataContext = _ViewModel;
             _MainWindow.Show();
             // //////////
-            String[] nevek = new String[2]{"Elso","Masodik"};
-            String[] szinek = new String[2]{"Elso","Masodik"};
-            Int32 osszeg = 20000;
-            _T = new Tabla(nevek, szinek, osszeg);
+            //String[] nevek = new String[2]{"Elso","Masodik"};
+            //String[] szinek = new String[2]{"Elso","Masodik"};
+            //Int32 osszeg = 20000;
+            //_T = new Tabla(nevek, szinek, osszeg);
             // //////////
         }
 

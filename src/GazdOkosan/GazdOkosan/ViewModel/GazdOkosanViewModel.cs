@@ -15,7 +15,7 @@ namespace GazdOkosan.ViewModel
         public DelegateCommand HelpCommand { get; private set; }
         public DelegateCommand DobasParancs { get; private set; }
 
-        Tabla tabla;
+        private Tabla tabla;
 
         public event EventHandler NewGame;
         public event EventHandler Help;
@@ -32,7 +32,7 @@ namespace GazdOkosan.ViewModel
         private void NewGameExecuted()
         {
             if (NewGame != null)
-                NewGame(this, EventArgs.Empty);
+                    NewGame(this, EventArgs.Empty);
         }
 
         private void ExitExecuted()
@@ -43,7 +43,7 @@ namespace GazdOkosan.ViewModel
         private void HelpExecuted()
         {
             if (Help != null)
-                Help(this, EventArgs.Empty);
+                    Help(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace GazdOkosan.ViewModel
         /// A "Takarékbetétkönyv váltás" gomb lenyomásakor, a Játékos takarékbetétkönyvet válthat egy általa megadott összegben.
         /// </summary>
         /// <param name="osszeg">Az összeg amennyiért a Játékos takarékbetétkönyvet akar váltani.</param>
-        public void Takarekbetet(int osszeg)
+        public void Takarekbetet(Int32 osszeg)
         {
-            tabla._jatekosok[tabla.KovJatekos].Takarek = osszeg;
+            tabla.TakarekbetetModell(osszeg);
         }
 
         /// <summary>
@@ -80,12 +80,7 @@ namespace GazdOkosan.ViewModel
         /// </summary>
         public void HazVasarlas_14()
         {
-            if (tabla._jatekosok[tabla.KovJatekos].Osszeg >= 30000)
-            {
-                tabla._jatekosok[tabla.KovJatekos].Osszeg -= 30000;
-                tabla._jatekosok[tabla.KovJatekos].VanLakas = true;
-                tabla._jatekosok[tabla.KovJatekos].Tartozas = 40000;
-            }
+            tabla.HazVasarlas14Modell();
         }
 
         /// <summary>
@@ -93,12 +88,7 @@ namespace GazdOkosan.ViewModel
         /// </summary>
         public void HazVasarlas_26()
         {
-            if (tabla._jatekosok[tabla.KovJatekos].Osszeg >= 40000)
-            {
-                tabla._jatekosok[tabla.KovJatekos].Osszeg -= 40000;
-                tabla._jatekosok[tabla.KovJatekos].VanLakas = true;
-                tabla._jatekosok[tabla.KovJatekos].Tartozas = 30000;
-            }
+            tabla.HazVasarlas26Modell();
         }
 
         /// <summary>
@@ -106,20 +96,16 @@ namespace GazdOkosan.ViewModel
         /// </summary>
         public void HazVasarlas()
         {
-            if (tabla._jatekosok[tabla.KovJatekos].Osszeg >= 70000)
-            {
-                tabla._jatekosok[tabla.KovJatekos].Osszeg -= 70000;
-                tabla._jatekosok[tabla.KovJatekos].VanLakas = true;
-            }
+            tabla.HazvasarlasModell();
         }
 
         /// <summary>
         /// Ha a Játékosnak tartozása van és van elegendő pénze, akkor az általa megadott összeg levonásra kerül a tartozásából.
         /// </summary>
         /// <param name="osszeg">A törlesztendő összeg.</param>
-        public void Torleszt(int osszeg)
+        public void Torleszt(Int32 osszeg)
         {
-            tabla._jatekosok[tabla.KovJatekos].Tartozas -= osszeg;
+            tabla.TorlesztModell(osszeg);
         }
 
         /// <summary>
@@ -127,8 +113,7 @@ namespace GazdOkosan.ViewModel
         /// </summary>
         public void CSEB_valtas()
         {
-            tabla._jatekosok[tabla.KovJatekos].Osszeg -= 150;
-            tabla._jatekosok[tabla.KovJatekos].VanCSEB = true;
+            tabla.CSEBvaltasModell();
         }
 
         /// <summary>
@@ -136,10 +121,7 @@ namespace GazdOkosan.ViewModel
         /// </summary>
         public void Lakasbizt_valtas()
         {
-            tabla._jatekosok[tabla.KovJatekos].Osszeg -= 200;
-            tabla._jatekosok[tabla.KovJatekos].VanLakasbizt = true;
+            tabla.LakasbiztvaltasModell();
         }
-
-
     }
 }

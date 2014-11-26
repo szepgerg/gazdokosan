@@ -78,7 +78,7 @@ namespace GazdOkosan.Model
         // A jatekos fix osszeget fizet/kap(Egyszeru), a jatekos vasarolhat egy listarol(Listas), 
         // a jatekosnak feltetelhez kototten fizetnek(Felteteles).
         #region Adattagok
-            public enum Tipus { Egyszeru, Listas, Felteteles};
+            public enum Tipus { Egyszeru, Listas, Felteteles, Torleszto};
             private Int32 _osszeg;
             private Tipus _tipus;
             private Dictionary<String, Int32> _lista;

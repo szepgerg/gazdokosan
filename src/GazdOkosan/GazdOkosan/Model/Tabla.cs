@@ -11,7 +11,7 @@ namespace GazdOkosan.Model
             private Dictionary<Int32, String> _leirasok;
             private Dictionary<Int32, Dictionary<String, Int32>> _listak;
             private Kartya[] _kartyak;
-            public Jatekos[] _jatekosok;
+            private Jatekos[] _jatekosok;
             private Int32 _jatekosSzam;
             private Int32 _kovJatekos;
             private Int32 _dobas;
@@ -113,7 +113,8 @@ namespace GazdOkosan.Model
                 _leirasok.Add(17, "Ha nincs televíziód, rádiód és háztartási géped - kölcsönözhetsz is!");
                 _leirasok.Add(18, "Szórakozni szeretnél. Vásárolj színház-, vagy mozijegyet!");
                 _leirasok.Add(29, "Itt megvásárolhatod a szükséges bútorokat és sportfelszereléseket!");
-                // !!!!!!!!!! 14,26
+                _leirasok.Add(14, "Szövetkezeti lakásépítés! Ha van már elegendő pénzed, fizess be a pénztárnak 30000,-Ft-ot és a hátralevő 40000,-Ft-ot körönként 2000,-Ft-os részletekben törlesztheted!");
+                _leirasok.Add(26, "Vegyél részt társasház-építésben! Ha van már elegendő pénzed, fizess be a pénztárnak 30000,-Ft-ot és a hátralevő 40000,-Ft-ot körönként 2000,-Ft-os részletekben törlesztheted!");
             }
 
             /// <summary>
@@ -214,6 +215,14 @@ namespace GazdOkosan.Model
                     _listak.TryGetValue(listasElemek[i], out lista);
                     _mezok[listasElemek[i]] = new TranzakciosMezo(listasElemek[i], leiras, t, -1, lista);
                 }
+
+                t = TranzakciosMezo.Tipus.Torleszto;
+                e = 14;
+                _leirasok.TryGetValue(e, out leiras);
+                _mezok[e] = new TranzakciosMezo(e, leiras, t, -1);
+                e = 26;
+                _leirasok.TryGetValue(e, out leiras);
+                _mezok[e] = new TranzakciosMezo(e, leiras, t, -1);
             }
 
             /// <summary>
@@ -285,14 +294,10 @@ namespace GazdOkosan.Model
             /// </summary>
             public void Dobas()
             {
-                // Dobas.
                 Random rand = new Random();
-                    //_dobas = rand.Next(1, 7);
-                    _dobas = 2;
-                
+                    _dobas = rand.Next(1, 7);   
                 Lepes();
             }
-
 
             /// <summary>
             /// A mezo lepest jelzo esemenyenek kezelese.
@@ -346,8 +351,6 @@ namespace GazdOkosan.Model
             public void JatekosValtas()
             {
                 _kovJatekos = (_kovJatekos % 2) + 1;
-
-                Dobas();
             }
 
             /// <summary>
@@ -376,6 +379,80 @@ namespace GazdOkosan.Model
             public void EgyVagyHatJatekosEsemeny(object sender, EventArgs e)
             {
                 _egyVagyHatJatekos = _kovJatekos;
+            }
+
+            /// <summary>
+            /// Takarekbetetet valto metodus.
+            /// </summary>
+            /// <param name="osszeg"> A takarekbetet ara. </param>
+            public void TakarekbetetModell(Int32 osszeg)
+            {
+                _jatekosok[_kovJatekos].Takarek = osszeg;
+            }
+
+            /// <summary>
+            /// Tartozas torleszteset vegzo metodus.
+            /// </summary>
+            /// <param name="osszeg"> A torlesztoreszlet. </param>
+            public void TorlesztModell(Int32 osszeg)
+            {
+                _jatekosok[_kovJatekos].Tartozas = _jatekosok[_kovJatekos].Tartozas - osszeg;
+            }
+
+            /// <summary>
+            /// Haz vasarlasat vegzo metodus.
+            /// </summary>
+            public void HazvasarlasModell()
+            {
+                if (_jatekosok[_kovJatekos].Osszeg >= 70000)
+                {
+                    _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - 70000;
+                    _jatekosok[_kovJatekos].VanLakas = true;
+                }
+            }
+
+            /// <summary>
+            /// CSEB biztositas valtasat vegzo metodus.
+            /// </summary>
+            public void CSEBvaltasModell()
+            {
+                _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - 150;
+                _jatekosok[_kovJatekos].VanCSEB = true;
+            }
+
+            /// <summary>
+            /// Lakasbiztositas valtasat vegzo metodus.
+            /// </summary>
+            public void LakasbiztvaltasModell()
+            {
+                _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - 200;
+                _jatekosok[_kovJatekos].VanLakasbizt = true;
+            }
+
+            /// <summary>
+            /// Specialis hazvasarlast megvalosito metodus.
+            /// </summary>
+            public void HazVasarlas14Modell()
+            {
+                if (_jatekosok[_kovJatekos].Osszeg >= 30000)
+                {
+                    _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - 30000;
+                    _jatekosok[_kovJatekos].VanLakas = true;
+                    _jatekosok[_kovJatekos].Tartozas = 40000;
+                }
+            }
+
+            /// <summary>
+            /// Specialis hazvasarlast megvalosito metodus.
+            /// </summary>
+            public void HazVasarlas26Modell()
+            {
+                if (_jatekosok[_kovJatekos].Osszeg >= 40000)
+                {
+                    _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - 40000;
+                    _jatekosok[_kovJatekos].VanLakas = true;
+                    _jatekosok[_kovJatekos].Tartozas = 30000;
+                }
             }
         #endregion
     }
