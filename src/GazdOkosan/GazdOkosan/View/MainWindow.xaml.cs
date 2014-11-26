@@ -21,16 +21,16 @@ namespace GazdOkosan.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        GazdOkosanViewModel viewModel = new GazdOkosanViewModel();
+        //GazdOkosanViewModel viewModel = new GazdOkosanViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void dobas_Click(object sender, RoutedEventArgs e)
+        /*private void dobas_Click(object sender, RoutedEventArgs e)
         {
             viewModel.dobas();
-        }
+        }*/
     }
 }

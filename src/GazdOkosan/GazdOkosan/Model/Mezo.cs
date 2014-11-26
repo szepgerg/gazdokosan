@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GazdOkosan.Model
 {
@@ -20,11 +21,6 @@ namespace GazdOkosan.Model
             {
                 get { return _leiras; }
                 set { _leiras = value; }
-            }
-            public virtual Boolean EgyVagyHat
-            {
-                get;
-                set;
             }
         #endregion
 
@@ -47,6 +43,12 @@ namespace GazdOkosan.Model
                     if (Lepes != null)
                         Lepes(this, new MezoArgumentumok(lepesszam));
                 }
+            public virtual event EventHandler<EventArgs> EgyVagyHatJatekos;
+                protected virtual void EgyVagyHatJatekoskor()
+                {
+                    if (EgyVagyHatJatekos != null)
+                            EgyVagyHatJatekos(this, new EventArgs());
+                }
         #endregion
 
         #region Konstruktorok
@@ -61,9 +63,16 @@ namespace GazdOkosan.Model
             { 
                 
             }
+            public virtual void Kezel(Jatekos jatekos, Int32 index)
+            { 
+            }
         #endregion
     }
 
+    // KESZ VAN.
+    /// <summary>
+    /// A tranzakcios mezoket megvalosito osztaly.
+    /// </summary>
     public class TranzakciosMezo : Mezo
     {
         // A jatekos fix osszeget fizet/kap(Egyszeru), a jatekos vasarolhat egy listarol(Listas), 
@@ -120,11 +129,18 @@ namespace GazdOkosan.Model
                             }
                         }
                         break;
-                    case Tipus.Listas:
-                        break;
                     default:
                         break;
                 }
+                
+            }
+            public override void Kezel(Jatekos jatekos, Int32 index)
+            {
+                // A lista index-edik elemet megveszi.
+                // 0-tol indexelt.
+                index--;
+                Int32 ar = _lista[_lista.Keys.ToList()[index]];
+                jatekos.Osszeg = jatekos.Osszeg - ar;
             }
         #endregion
     }
@@ -149,6 +165,10 @@ namespace GazdOkosan.Model
         #endregion
     }
 
+    // KESZ VAN.
+    /// <summary>
+    /// A lepteto mezoket megvalosito osztaly.
+    /// </summary>
     public class LeptetoMezo : Mezo
     {
         // A jatekos lephet valamennyit, illetve ujradobhat.
@@ -167,7 +187,7 @@ namespace GazdOkosan.Model
         #endregion
 
         #region Konstruktorok
-        public LeptetoMezo(Int32 azonosito, String leiras, Int32 lepesszam, Boolean ujradobas)
+            public LeptetoMezo(Int32 azonosito, String leiras, Int32 lepesszam, Boolean ujradobas)
             {
                 Azonosito = azonosito;
                 Leiras = leiras;
@@ -193,49 +213,34 @@ namespace GazdOkosan.Model
         #endregion
     }
 
+    // KESZ VAN.
+    /// <summary>
+    /// A specialis mezoket megvalosito osztaly.
+    /// </summary>
     public class SpecialisMezo : Mezo
     {
         // A jatekos csak akkor mehet tovabb ha 1-es illetve 6-ost dobott(30-as mezo)
         // csak egy szoveget kell megjeleniteni, semmi hatasa nincsen(5-os mezo).
-        #region Adattagok
-            private Boolean _egyVagyHat;
-        #endregion
-
         #region Konstruktorok
         public SpecialisMezo(Int32 azonosito, String leiras)
             {
                 Azonosito = azonosito;
                 Leiras = leiras;
+            }
+        #endregion
+        
+        #region Metodusok
+            public override void Kezel(Jatekos jatekos)
+            {
                 if (Azonosito == 30)
                 {
-                    _egyVagyHat = true;
-                }
-                else
-                {
-                    _egyVagyHat = false;
-                }
-            }
-        #endregion
-
-        #region Tulajdonsagok
-            public override Boolean EgyVagyHat
-            {
-                get { return _egyVagyHat; }
-                set { _egyVagyHat = value; }
-            }
-        #endregion
-
-        #region Metodusok
-        public override void Kezel(Jatekos jatekos)
-            {
-                // !!!!!!!!!!
-                if (Azonosito == 5)
-                {
-                    // Csak a szoveg megjelenitese.
+                    // Esemeny a Tabla-nak, mely jelzi, hogy az aktualis jatekos csak 1/6 dobassal mehet tovabb.
+                    EgyVagyHatJatekoskor();
                 }
                 else
                 { 
-                    // 30-as mezo. 
+                    // 5-os mezo.
+                    // Csak szoveg megjelenitese.
                 }
             }
         #endregion

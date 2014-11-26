@@ -47,7 +47,6 @@ namespace GazdOkosan.Model
                 get { return _vanCSEB; }
                 set { _vanCSEB = value; }
             }
-            
         #endregion
 
         #region Konstruktorok

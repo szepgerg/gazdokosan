@@ -25,7 +25,7 @@ namespace GazdOkosan.View
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /*private void Button_Click(object sender, RoutedEventArgs e)
         {
             int jatekosSzam = 0;
             String[] nevek = new String[4];
@@ -64,6 +64,6 @@ namespace GazdOkosan.View
             }
 
             vievModel.ujJatek(nevek, Int32.Parse(textBoxMoney.Text));
-        }
+        }*/
     }
 }

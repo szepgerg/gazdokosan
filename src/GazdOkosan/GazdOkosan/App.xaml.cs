@@ -29,8 +29,8 @@ namespace GazdOkosan
         public App()
         {
             _ViewModel = new GazdOkosanViewModel();
-            _ViewModel.NewGame += new EventHandler(ViewModel_NewGame);
-            _ViewModel.Help += new EventHandler(ViewModel_Help);
+            /*_ViewModel.NewGame += new EventHandler(ViewModel_NewGame);
+            _ViewModel.Help += new EventHandler(ViewModel_Help);*/
         }
 
         protected override void OnStartup(StartupEventArgs e)

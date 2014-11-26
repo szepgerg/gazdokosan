@@ -15,6 +15,7 @@ namespace GazdOkosan.Model
             private Int32 _jatekosSzam;
             private Int32 _kovJatekos;
             private Int32 _dobas;
+            private Int32 _egyVagyHatJatekos;
         #endregion
 
         #region Tulajdonsagok
@@ -44,6 +45,7 @@ namespace GazdOkosan.Model
                         mezo.KartyaHuzas += new EventHandler<EventArgs>(KartyahuzasEsemeny);
                         mezo.Dobas += new EventHandler<EventArgs>(DobasEsemeny);
                         mezo.Lepes += new EventHandler<MezoArgumentumok>(LepesEsemeny);
+                        mezo.EgyVagyHatJatekos += new EventHandler<EventArgs>(EgyVagyHatJatekosEsemeny);
                     }
                 }
 
@@ -59,6 +61,11 @@ namespace GazdOkosan.Model
                 }
 
                 _kovJatekos = 1;
+
+                // //////////
+                _jatekosok[_kovJatekos].Pozicio = 28;
+                Dobas();
+                // //////////
             }
         #endregion
 
@@ -272,7 +279,7 @@ namespace GazdOkosan.Model
             {
                 Dobas();
             }
-
+        
             /// <summary>
             /// Az aktualis jatekos lepeset elvegzo eljaras.
             /// </summary>
@@ -280,10 +287,12 @@ namespace GazdOkosan.Model
             {
                 // Dobas.
                 Random rand = new Random();
-                    _dobas = rand.Next(1, 7);
+                    //_dobas = rand.Next(1, 7);
+                    _dobas = 2;
                 
                 Lepes();
             }
+
 
             /// <summary>
             /// A mezo lepest jelzo esemenyenek kezelese.
@@ -302,15 +311,33 @@ namespace GazdOkosan.Model
             /// <param name="dobas"> Dobas eredmenye, ennyit lep a jatekos. </param>
             public void Lepes()
             {
-                // A kovetkezo pozicio meghatarozasa.
-                Int32 poz = _jatekosok[_kovJatekos].Pozicio + _dobas;
+                if (_kovJatekos == _egyVagyHatJatekos && _dobas != 1 && _dobas != 6)
+                {
+                    JatekosValtas();
+                }
+                else if ((_kovJatekos == _egyVagyHatJatekos && (_dobas == 1 || _dobas == 6))
+                         || _kovJatekos != _egyVagyHatJatekos) 
+                {
+                    Int32 poz = _jatekosok[_kovJatekos].Pozicio + _dobas;
                     if (poz > 39) poz = poz - 39;
-                // Jatekos uj poziciojanak mentese.
-                _jatekosok[_kovJatekos].Pozicio = poz;
-                // Mezore lepes, az uj mezo kezeli a jatekos valtozasait.
-                _mezok[poz].Kezel(_jatekosok[_kovJatekos]);
 
-                JatekosValtas();
+                    // !!!!!!!!!!
+                    // A poz. mezo leirasanak megjelenitese felugro ablakba.
+                    // Ha a mezo Tranzakcios.Listas a lista megjelenitese
+                    // Kivalasztott ertek indexenek visszaadasa.
+                    // Annak megfeleloen mit valaszt, vanTV = true...
+
+                    // Jatekos uj poziciojanak mentese.
+                    _jatekosok[_kovJatekos].Pozicio = poz;
+                    // Mezore lepes, az uj mezo kezeli a jatekos valtozasait.
+                    _mezok[poz].Kezel(_jatekosok[_kovJatekos]);
+
+                    JatekosValtas();
+                }
+                else if( _kovJatekos == _egyVagyHatJatekos && (_dobas == 1 || _dobas == 6) )
+                {
+                    _egyVagyHatJatekos = -1;
+                }
             }
 
             /// <summary>
@@ -339,6 +366,16 @@ namespace GazdOkosan.Model
             public void Kartyahuzas()
             { 
                 // !!!!!!!!!!
+            }
+
+            /// <summary>
+            /// A specialis mezo csak 1/6-os dobast elfogado esemeny kezelese.
+            /// </summary>
+            /// <param name="sender"> Az esemenyt kivalto mezo. </param>
+            /// <param name="e"> Az esemeny parameterei. </param>
+            public void EgyVagyHatJatekosEsemeny(object sender, EventArgs e)
+            {
+                _egyVagyHatJatekos = _kovJatekos;
             }
         #endregion
     }

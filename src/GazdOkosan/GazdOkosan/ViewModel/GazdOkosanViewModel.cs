@@ -16,7 +16,7 @@ namespace GazdOkosan.ViewModel
 
         Tabla tabla;
 
-        public event EventHandler NewGame;
+        /*public event EventHandler NewGame;
         public event EventHandler Help;
 
         public GazdOkosanViewModel()
@@ -73,6 +73,6 @@ namespace GazdOkosan.ViewModel
         public void torleszt(int osszeg)
         {
             tabla._jatekosok[tabla.KovJatekos].Tartozas -= osszeg;
-        }
+        }*/
     }
 }
