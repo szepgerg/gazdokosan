@@ -10,7 +10,7 @@ namespace GazdOkosan.Model
             private Mezo[] _mezok;
             private Dictionary<Int32, String> _leirasok;
             private Dictionary<Int32, Dictionary<String, Int32>> _listak;
-            private Kartya[] _kartyak;
+            private List<Kartya> _kartyak;
             private Jatekos[] _jatekosok;
             private Int32 _jatekosSzam;
             private Int32 _kovJatekos;
@@ -50,7 +50,7 @@ namespace GazdOkosan.Model
                 }
 
                 // Kartyak inicializalasa.
-                // !!!!!!!!!!
+                Kartya_Inicializalas();
 
                 // Jatekosok inicializalasa.
                 _jatekosSzam = nevek.Length;
@@ -277,6 +277,38 @@ namespace GazdOkosan.Model
                 i = 30;
                 _leirasok.TryGetValue(i, out leiras);
                 _mezok[i] = new SpecialisMezo(i, leiras);
+            }
+
+            private void Kartya_Inicializalas()
+            {
+                _kartyak = new List<Kartya>();
+                _kartyak.Add(new Kartya("Lépj a 38-as mezőre!", "SETA", 38));
+                _kartyak.Add(new Kartya("Szereted a fagyit.Én is.De semmi sincs ingyen!Ezért fizetned kell 250Ft-ot!", "FIZET", -250));
+                _kartyak.Add(new Kartya("Vedd fel a fizetésed!", "FIZET", 2000));
+                _kartyak.Add(new Kartya("Erre is jó egy könyvelő.Visszaigényelt neked az APEH-től 50.000Ft-ot", "FIZET", 50000));
+                _kartyak.Add(new Kartya("Kisöcséted meghívtad egy fagylaltra.250Ft-ot fizettél!", "FIZET", 250));
+                _kartyak.Add(new Kartya("Lépj a 21-as mezőre!", "SETA", 21));
+                _kartyak.Add(new Kartya("De rendes vagy!Adományoztál 5000Ft-ot", "FIZET", -5000));
+                _kartyak.Add(new Kartya("Lépj a 38-as mezőre!", "SETA", 38));
+                _kartyak.Add(new Kartya("Nyertél 100.000Ft-ot!", "FIZET", 100000));
+                _kartyak.Add(new Kartya("Nyertél egy 100.000Ft-os kötvényt", "KOTVENY", 100000));
+                _kartyak.Add(new Kartya("Innen lépj át a 22-es mezőre", "SETA", 22));
+                _kartyak.Add(new Kartya("Reklám nélkül nem fog beindulni a céged!15.000Ft reklámköltésget kell fizetned", "FIZET", -15000));
+                _kartyak.Add(new Kartya("Nyertél egy 50.000Ft-os kötvényt", "KOTVENY", 50000));
+                _kartyak.Add(new Kartya("Kötvényeid árfolyama 50%-kal emelkedett", "KOTVENY_SZORZAS", 50));
+                _kartyak.Add(new Kartya("Születésnapodra szüleid nem tudták, hogy mit vegyenek neked, ezért 10.000Ft-ot kaptál", "FIZET", 10000));
+                _kartyak.Add(new Kartya("Nyertél 50.000Ft-ot", "FIZET", 50000));
+                _kartyak.Add(new Kartya("Fűtés számla: 5.000Ft", "FIZET", -5000));
+                _kartyak.Add(new Kartya("Közlekedési kihágásért a rendőr megbüntetett 1.000Ft-ra!", "FIZET", -1000));
+                _kartyak.Add(new Kartya("Sorsoláson 50.000Ft-os kötvényt nyertél", "KOTVENY", 50000));
+                _kartyak.Add(new Kartya("Vissza nem térítendő kölcsönt kaptál a banktól 50.000Ft értékben", "FIZET", 50000));
+                _kartyak.Add(new Kartya("Lépj a 2-es mezőre!", "SETA", 2));
+                _kartyak.Add(new Kartya("Ki kell fizetned a fűtésszámládat, értéke: 5.000Ft", "FIZET", -5000));
+                _kartyak.Add(new Kartya("Szerencsjátékon nyertél egy 100.000-os kötvényt!", "KOTVENY", 100000));
+                _kartyak.Add(new Kartya("Lottón nyertél 100.000Ft-ot!", "FIZET", 100000));
+                _kartyak.Add(new Kartya("Piroson mentél át ezért a rendőr megbüntetett 1.000Ft-ra!", "FIZET", 1000));
+                _kartyak.Add(new Kartya("50.000Ft-ot nyertél!", "FIZET", 50000));
+
             }
 
             /// <summary>
