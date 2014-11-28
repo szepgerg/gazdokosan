@@ -16,6 +16,8 @@ namespace GazdOkosan.Model
             private Int32 _kovJatekos;
             private Int32 _dobas;
             private Int32 _egyVagyHatJatekos;
+
+            private Kartya szerencseKartya;
         #endregion
 
         #region Tulajdonsagok
@@ -139,15 +141,15 @@ namespace GazdOkosan.Model
                 _listak.Add(34, lista);
 
                 lista.Clear();
-                lista.Add("Szobabútor", 25000);
-                lista.Add("Konyhabútor", 15000);
-                lista.Add("Hűtőgép", 4000);
-                lista.Add("Mosógép", 5000);
-                lista.Add("Pingpongasztal", 2000);
-                lista.Add("Porszívó", 1000);
-                lista.Add("Televízió", 6000);
-                lista.Add("Rádió", 2000);
-                lista.Add("Kerékpár", 1500);
+                lista.Add("Szobabútor", 25000);     //Szobabútor - 1
+                lista.Add("Konyhabútor", 15000);    //Konyhabútor - 2
+                lista.Add("Hűtőgép", 4000);         //Hűtőgép - 3
+                lista.Add("Mosógép", 5000);         //Mosógép - 4
+                lista.Add("Pingpongasztal", 2000);  //Pingpongasztal - 5
+                lista.Add("Porszívó", 1000);        //Porszívó - 6
+                lista.Add("Televízió", 6000);       //Televízió - 7
+                lista.Add("Rádió", 2000);           //Radió - 8
+                lista.Add("Kerékpár", 1500);        //Kerékpár - 9
                 _listak.Add(7, lista);
                 _listak.Add(13, lista);
 
@@ -285,30 +287,39 @@ namespace GazdOkosan.Model
                 _kartyak.Add(new Kartya("Lépj a 38-as mezőre!", "SETA", 38));
                 _kartyak.Add(new Kartya("Szereted a fagyit.Én is.De semmi sincs ingyen!Ezért fizetned kell 250Ft-ot!", "FIZET", -250));
                 _kartyak.Add(new Kartya("Vedd fel a fizetésed!", "FIZET", 2000));
+                _kartyak.Add(new Kartya("Megnyerted a színes televíziót!", "BUTOR", 7));
                 _kartyak.Add(new Kartya("Erre is jó egy könyvelő.Visszaigényelt neked az APEH-től 50.000Ft-ot", "FIZET", 50000));
                 _kartyak.Add(new Kartya("Kisöcséted meghívtad egy fagylaltra.250Ft-ot fizettél!", "FIZET", 250));
+                _kartyak.Add(new Kartya("Megnyerted a szobabútorokat", "BUTOR", 1));
                 _kartyak.Add(new Kartya("Lépj a 21-as mezőre!", "SETA", 21));
                 _kartyak.Add(new Kartya("De rendes vagy!Adományoztál 5000Ft-ot", "FIZET", -5000));
                 _kartyak.Add(new Kartya("Lépj a 38-as mezőre!", "SETA", 38));
+                _kartyak.Add(new Kartya("Nyertél egy hűtőszekrényt", "BUTOR", 3));
+                _kartyak.Add(new Kartya("Újra húzhatsz!", "KARTYA", 1));
                 _kartyak.Add(new Kartya("Nyertél 100.000Ft-ot!", "FIZET", 100000));
                 _kartyak.Add(new Kartya("Nyertél egy 100.000Ft-os kötvényt", "KOTVENY", 100000));
                 _kartyak.Add(new Kartya("Innen lépj át a 22-es mezőre", "SETA", 22));
                 _kartyak.Add(new Kartya("Reklám nélkül nem fog beindulni a céged!15.000Ft reklámköltésget kell fizetned", "FIZET", -15000));
                 _kartyak.Add(new Kartya("Nyertél egy 50.000Ft-os kötvényt", "KOTVENY", 50000));
+                _kartyak.Add(new Kartya("Megnyerted a konyhabútort", "BUTOR", 2));
                 _kartyak.Add(new Kartya("Kötvényeid árfolyama 50%-kal emelkedett", "KOTVENY_SZORZAS", 50));
                 _kartyak.Add(new Kartya("Születésnapodra szüleid nem tudták, hogy mit vegyenek neked, ezért 10.000Ft-ot kaptál", "FIZET", 10000));
                 _kartyak.Add(new Kartya("Nyertél 50.000Ft-ot", "FIZET", 50000));
+                _kartyak.Add(new Kartya("Megnyerted a rádiót", "BUTOR", 8));
                 _kartyak.Add(new Kartya("Fűtés számla: 5.000Ft", "FIZET", -5000));
                 _kartyak.Add(new Kartya("Közlekedési kihágásért a rendőr megbüntetett 1.000Ft-ra!", "FIZET", -1000));
                 _kartyak.Add(new Kartya("Sorsoláson 50.000Ft-os kötvényt nyertél", "KOTVENY", 50000));
                 _kartyak.Add(new Kartya("Vissza nem térítendő kölcsönt kaptál a banktól 50.000Ft értékben", "FIZET", 50000));
                 _kartyak.Add(new Kartya("Lépj a 2-es mezőre!", "SETA", 2));
+                _kartyak.Add(new Kartya("Nyertél egy kerékpárt", "BUTOR", 9));
                 _kartyak.Add(new Kartya("Ki kell fizetned a fűtésszámládat, értéke: 5.000Ft", "FIZET", -5000));
                 _kartyak.Add(new Kartya("Szerencsjátékon nyertél egy 100.000-os kötvényt!", "KOTVENY", 100000));
+                _kartyak.Add(new Kartya("Megnyerted a mosógépet", "BUTOR", 4));
                 _kartyak.Add(new Kartya("Lottón nyertél 100.000Ft-ot!", "FIZET", 100000));
                 _kartyak.Add(new Kartya("Piroson mentél át ezért a rendőr megbüntetett 1.000Ft-ra!", "FIZET", 1000));
                 _kartyak.Add(new Kartya("50.000Ft-ot nyertél!", "FIZET", 50000));
-
+                _kartyak.Add(new Kartya("Megnyerted a hűtőszekrényt!", "BUTOR", 3));
+                _kartyak.Add(new Kartya("Újra húzhatsz!", "KARTYA", 1));
             }
 
             /// <summary>
@@ -399,8 +410,74 @@ namespace GazdOkosan.Model
             /// A szerencsekartya huzasat tamogato metodus.
             /// </summary>
             public void Kartyahuzas()
-            { 
-                // !!!!!!!!!!
+            {
+                int szam = new Random().Next(_kartyak.Count());
+                szerencseKartya = _kartyak[szam];
+                //new KartyaDialog(szerencseKartya.Leiras);
+
+                if(szerencseKartya.Muvelet.Equals("FIZET"))
+                {
+                    _jatekosok[_kovJatekos].Osszeg += szerencseKartya.Ertek;
+                }
+                if (szerencseKartya.Muvelet.Equals("KOTVENY"))
+                {
+                    _jatekosok[_kovJatekos].Takarek += szerencseKartya.Ertek;
+                }
+                if (szerencseKartya.Muvelet.Equals("KOTVENY_SZORZAS"))
+                {
+                    double szorzat = szerencseKartya.Ertek / 100;
+                    int temp = (int)(_jatekosok[_kovJatekos].Osszeg * szorzat);
+                    _jatekosok[_kovJatekos].Takarek += temp;
+                }
+                if (szerencseKartya.Muvelet.Equals("SETA"))
+                {
+                    /*
+                     * Ha a Játékos aktuiális pozíciója nagyobb mint a kártyán szereplő Mezőszám, akkor körbe kell menni a pályán, azaz
+                     * át kell haladni a Starton, tehát meg kell kapni a 2.000Ft-ot ami ott jár.
+                     * Majd az új pozícióban le kell kezelni a Mező esetleges feladatait.
+                     * */
+                    if (_jatekosok[_kovJatekos].Pozicio > szerencseKartya.Ertek)
+                    {
+                        _jatekosok[_kovJatekos].Osszeg += 4000;
+                    }
+                    _jatekosok[_kovJatekos].Pozicio = szerencseKartya.Ertek;
+                    _mezok[szerencseKartya.Ertek].Kezel(_jatekosok[_kovJatekos]);
+                }
+                if(szerencseKartya.Muvelet.Equals("BUTOR"))
+                {
+                    String butor = "";
+
+                    switch(szerencseKartya.Ertek)
+                    {
+                        case 1: butor = "Szobabútor";
+                            break;
+                        case 2: butor = "Konyhabútor";
+                            break;
+                        case 3: butor = "Hűtőgép";
+                            break;
+                        case 4: butor = "Mosógép";
+                            break;
+                        case 5: butor = "Pingpongasztal";
+                            break;
+                        case 6: butor = "Pórszívó";
+                            break;
+                        case 7: butor = "Televízió";
+                            break;
+                        case 8: butor = "Rádió";
+                            break;
+                        case 9: butor = "Kerékpár";
+                            break;
+                    }
+
+                    if ( !(_jatekosok[_kovJatekos].VanButor(butor)) )
+                    {
+                        _jatekosok[_kovJatekos].AdButor(butor);
+                    }
+                }
+                if (szerencseKartya.Muvelet.Equals("KARTYA"))
+                {
+                    Kartyahuzas();
+                }
             }
 
             /// <summary>
@@ -419,6 +496,7 @@ namespace GazdOkosan.Model
             /// <param name="osszeg"> A takarekbetet ara. </param>
             public void TakarekbetetModell(Int32 osszeg)
             {
+                _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - osszeg;
                 _jatekosok[_kovJatekos].Takarek = osszeg;
             }
 
@@ -428,6 +506,7 @@ namespace GazdOkosan.Model
             /// <param name="osszeg"> A torlesztoreszlet. </param>
             public void TorlesztModell(Int32 osszeg)
             {
+                _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - osszeg;
                 _jatekosok[_kovJatekos].Tartozas = _jatekosok[_kovJatekos].Tartozas - osszeg;
             }
 
@@ -486,6 +565,33 @@ namespace GazdOkosan.Model
                     _jatekosok[_kovJatekos].Tartozas = 30000;
                 }
             }
+
+            /// <summary>
+            /// Könyvutalvány vásárlását megvalósító metódus.
+            /// </summary>
+            public void KonyvutalvanyModell()
+            {
+                _jatekosok[_kovJatekos].Osszeg = _jatekosok[_kovJatekos].Osszeg - 400;
+                _jatekosok[_kovJatekos].VanKonyvut = true;
+            }
         #endregion
+
+
+        #region Teszthez
+            public Jatekos[] getJatekos()
+            {
+                return _jatekosok;
+            }
+
+            public List<Kartya> getKartyak
+            {
+                get { return _kartyak; }
+            }
+
+            public Kartya getSzerencseKartya
+            {
+                get { return szerencseKartya; }
+            }
+       #endregion
     }
 }

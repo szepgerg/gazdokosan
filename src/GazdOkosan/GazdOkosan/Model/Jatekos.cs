@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GazdOkosan.Model
 {
@@ -15,9 +16,15 @@ namespace GazdOkosan.Model
             private Boolean _vanCSEB;
             private Boolean _vanLakasbizt;
             private Boolean _vanKonyvut;
+            private List<String> _butor;
         #endregion
 
         #region Tulajdonsagok
+            public String Nev
+            {
+                get { return _nev; }
+                set { _nev = value; }
+            }
             public Int32 Pozicio
             {
                 get { return _pozicio; }
@@ -69,7 +76,37 @@ namespace GazdOkosan.Model
                 _osszeg = osszeg;
                 _takarek = 0;
                 _vanLakas = false;
+                _butor = new List<String>();
             }
         #endregion
+
+        /// <summary>
+        /// Megvizsgálja hogy <param>butor</param> megtalálható-e a Játékos <list>_butor</list> listájában, és <code>true</code> ha megatlálható
+        /// <code>false</code> ha nem.
+        /// </summary>
+        /// <param name="butor">A vizsgálandó bútor darab.</param>
+        /// <returns>True vagy false attól függően megtalálható-e az adott <code>butor</code> a Játékos listájában.</returns>
+        public Boolean VanButor(String butor)
+        {
+            return _butor.Contains(butor);
+        }
+
+        /// <summary>
+        /// Hozzáadja az adott <param>butor</param> darabot a Játékos bútor listájához.
+        /// </summary>
+        /// <param name="butor">A hozzáadandó bútor darab.</param>
+        public void AdButor(String butor)
+        {
+            _butor.Add(butor);
+        }
+
+        /// <summary>
+        /// Visszatér a Játékos bútor darabjainak listájával.
+        /// </summary>
+        /// <returns>A Játékos által bírtokolt bútorok listája</returns>
+        public List<String> Butor()
+        {
+            return _butor;
+        }
     }
 }
